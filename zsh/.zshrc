@@ -1,3 +1,6 @@
+# User-local binaries (zoxide, uv, etc.)
+export PATH="$HOME/.local/bin:$PATH"
+
 # =============================================================================
 # Oh My Zsh
 # =============================================================================
@@ -71,8 +74,14 @@ alias tmuxconf="nvim ~/.config/tmux/tmux.conf"
 alias v="nvim"
 
 # General Aliases
-alias copy="xclip -selection clipboard"
-alias contopen="xdg-open ."
+if grep -qi microsoft /proc/version 2>/dev/null; then
+  # WSL: use Windows clipboard / Explorer
+  alias copy="clip.exe"
+  alias contopen="explorer.exe ."
+else
+  alias copy="xclip -selection clipboard"
+  alias contopen="xdg-open ."
+fi
 
 # C++ Aliases
 alias rmain="./src/main"

@@ -8,7 +8,9 @@ DOTFILES="${DOTFILES:-$HOME/dotfiles}"
 CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}"
 BACKUP="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
 
-command -v git >/dev/null || { echo "git is required"; exit 1; }
+for req in git curl; do
+  command -v "$req" >/dev/null || { echo "$req is required"; exit 1; }
+done
 
 if [ -d "$DOTFILES/.git" ]; then
   echo "==> Updating $DOTFILES"
@@ -52,6 +54,18 @@ for plugin in zsh-autosuggestions zsh-syntax-highlighting; do
     git clone --depth 1 "https://github.com/zsh-users/$plugin" "$dir"
   fi
 done
+
+# zoxide (installs to ~/.local/bin)
+if ! command -v zoxide >/dev/null && [ ! -x "$HOME/.local/bin/zoxide" ]; then
+  echo "==> Installing zoxide"
+  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+fi
+
+# pixi (installs to ~/.pixi/bin; PATH is already set in .zshrc, so skip rc edits)
+if ! command -v pixi >/dev/null && [ ! -x "$HOME/.pixi/bin/pixi" ]; then
+  echo "==> Installing pixi"
+  curl -fsSL https://pixi.sh/install.sh | PIXI_NO_PATH_UPDATE=1 PIXI_NO_TELEMETRY=1 bash
+fi
 
 TPM="$CONFIG/tmux/plugins/tpm"
 if [ ! -d "$TPM" ]; then
