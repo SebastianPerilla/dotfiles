@@ -36,6 +36,22 @@ link() {  # link <source> <target>
 echo "==> Linking configs"
 link "$DOTFILES/nvim"           "$CONFIG/nvim"
 link "$DOTFILES/tmux/tmux.conf" "$CONFIG/tmux/tmux.conf"
+link "$DOTFILES/zsh/.zshrc"     "$HOME/.zshrc"
+link "$DOTFILES/zsh/.zprofile"  "$HOME/.zprofile"
+
+# Oh My Zsh + plugins (cloned directly so OMZ's installer doesn't overwrite .zshrc)
+OMZ="$HOME/.oh-my-zsh"
+if [ ! -d "$OMZ" ]; then
+  echo "==> Installing Oh My Zsh"
+  git clone --depth 1 https://github.com/ohmyzsh/ohmyzsh.git "$OMZ"
+fi
+for plugin in zsh-autosuggestions zsh-syntax-highlighting; do
+  dir="$OMZ/custom/plugins/$plugin"
+  if [ ! -d "$dir" ]; then
+    echo "==> Installing $plugin"
+    git clone --depth 1 "https://github.com/zsh-users/$plugin" "$dir"
+  fi
+done
 
 TPM="$CONFIG/tmux/plugins/tpm"
 if [ ! -d "$TPM" ]; then
@@ -45,7 +61,7 @@ fi
 echo "==> Installing tmux plugins"
 "$TPM/bin/install_plugins" >/dev/null 2>&1 || echo "    (run 'prefix + I' inside tmux to install plugins)"
 
-for bin in nvim tmux; do
+for bin in nvim tmux zsh; do
   command -v "$bin" >/dev/null || echo "!! $bin is not installed"
 done
 
