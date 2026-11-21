@@ -22,6 +22,7 @@ The script clones the repo to `~/dotfiles` and symlinks:
 | `tmux/tmux.conf`  | `~/.config/tmux/tmux.conf`   |
 | `zsh/.zshrc`      | `~/.zshrc`                   |
 | `zsh/.zprofile`   | `~/.zprofile`                |
+| `herdr/templates/` | `~/.config/herdr-core/templates` |
 
 Existing configs are moved to `~/.dotfiles-backup/<timestamp>/`. It also installs
 Oh My Zsh (+ zsh-autosuggestions, zsh-syntax-highlighting), zoxide, pixi, TPM and the tmux plugins; Neovim plugins install on first launch via lazy.nvim.

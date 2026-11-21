@@ -40,6 +40,7 @@ link "$DOTFILES/nvim"           "$CONFIG/nvim"
 link "$DOTFILES/tmux/tmux.conf" "$CONFIG/tmux/tmux.conf"
 link "$DOTFILES/zsh/.zshrc"     "$HOME/.zshrc"
 link "$DOTFILES/zsh/.zprofile"  "$HOME/.zprofile"
+link "$DOTFILES/herdr/templates" "$CONFIG/herdr-core/templates"
 
 # Oh My Zsh + plugins (cloned directly so OMZ's installer doesn't overwrite .zshrc)
 OMZ="$HOME/.oh-my-zsh"
